@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useState } from 'react'
 import { Button, Modal, Spinner } from 'react-bootstrap';
 
-const CreateTutorial = (props) => {
+const CreateTutorial = ({setTutorials, ...props}) => {
     const [formState, setFormState] = useState({
         title: "",
         description: "",
@@ -42,7 +42,9 @@ const CreateTutorial = (props) => {
         setSubmitting(true);
         async function postTutorial() {
             await axios.post("https://experienced-rogue-avatar.glitch.me/api/tutorials", formState)
-                .then(setMessage("Submitted Tutorial"))
+                .then(
+                    setMessage("Submitted Tutorial")
+                )
                 .catch(err => {
                     console.log(err);
                     setError(err.message);

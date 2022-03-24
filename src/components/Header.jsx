@@ -3,15 +3,15 @@ import { getData } from '../utils/fetches';
 
 
 
-const Header = ({showCreateTutorial, deleteTutorialHandler, currentId, ...props}) => {
+const Header = ({showCreateTutorial, deleteTutorialHandler, setShowPublished, currentId, ...props}) => {
   return (
-    <div className="container-fluid">
       <div className="d-flex justify-content-around">
+        <div className="d-flex justify-content-start flex-grow-1 mx-4 gap-2">
         <button 
           className="btn btn-primary" 
           onClick={() => props.setShowCreateTutorial(showCreateTutorial => !showCreateTutorial)}
         >
-          Create a New Tutorial <i class="bi bi-pencil-square"></i>
+          Create a New Tutorial <i className="bi bi-pencil-square"></i>
         </button>
         {currentId && (
           <>
@@ -19,20 +19,28 @@ const Header = ({showCreateTutorial, deleteTutorialHandler, currentId, ...props}
             className="btn btn-danger" 
             onClick={() => deleteTutorialHandler()}
           >
-            Delete <i class="bi bi-pencil-square"></i>
+            Delete <i className="bi bi-pencil-square"></i>
           </button>
           <button 
             className="btn btn-secondary"
             onClick={() => props.setShowUpdateTutorial(showUpdateTutorial => !showUpdateTutorial)}
           >
-            Edit <i class="bi bi-pencil-square"></i>
+            Edit <i className="bi bi-pencil-square"></i>
           </button>
           </>
           )
         }
+        <label>
+          <input 
+            type="checkbox" 
+            checked={props.showPublished}
+            onChange={() => setShowPublished(oldPublished => !oldPublished)}  
+          />
+          {' '} Published
+        </label>
+        </div>
         <button className="btn bi bi-arrow-clockwise" title="Refresh Tutorials" onClick={() => getData(props.setTutorials)} />
       </div>
-    </div>
   )
 }
 

@@ -13,6 +13,9 @@ const App = () => {
   const [currentId, setCurrentId] = useState(null);
   const [showCreateTutorial, setShowCreateTutorial] = useState(false);
   const [showUpdateTutorial, setShowUpdateTutorial] = useState(false);
+  const [showPublished, setShowPublished] = useState(false);
+
+  console.log(tutorials);
 
   const deleteTutorialHandler = () => {
     deleteTutorial(currentId);
@@ -22,7 +25,7 @@ const App = () => {
       });
     });
     setCurrentId(null);
-  }
+  };
 
   return (
     <div className="container-fluid p-0">
@@ -35,9 +38,11 @@ const App = () => {
         deleteTutorialHandler={deleteTutorialHandler}
         setShowUpdateTutorial={setShowUpdateTutorial}
         showUpdateTutorial={showUpdateTutorial}
+        showPublished={showPublished}
+        setShowPublished={setShowPublished}
       />
-      <Table 
-        tutorials={tutorials} 
+      <Table
+        tutorials={showPublished ? tutorials.filter(tutorial => tutorial.published == true) : tutorials} 
         setCurrentId={setCurrentId} 
         currentId={currentId}
       />
@@ -53,6 +58,7 @@ const App = () => {
             showUpdateTutorial={showUpdateTutorial}
             setShowUpdateTutorial={setShowUpdateTutorial}
             tutorial={tutorials.find(tutorial => tutorial.id === currentId)}
+            setTutorials={setTutorials}
             currentId={currentId}
           />
         )

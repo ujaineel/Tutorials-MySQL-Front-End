@@ -42,7 +42,9 @@ const EditTutorial = ({ tutorial, currentId, ...props }) => {
         setSubmitting(true);
         async function updateTutorial() {
             await axios.put(`https://experienced-rogue-avatar.glitch.me/api/tutorials/${currentId}`, formState)
-                .then(setMessage("Updated Tutorial"))
+                .then(
+                    setMessage("Updated Tutorial"),
+                )
                 .catch(err => {
                     console.log(err);
                     setError(err.message);

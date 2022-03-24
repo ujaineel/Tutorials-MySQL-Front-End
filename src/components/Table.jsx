@@ -19,7 +19,14 @@ const Table = ({ tutorials, setCurrentId, currentId }) => {
                         <tr 
                             className={currentId === tutorial.id ? "bg-secondary" : ""}
                             key={tutorial.id} 
-                            onClick={(() => setCurrentId(tutorial.id))}
+                            onClick={(() => {
+                                if (tutorial.id !== currentId){
+                                    setCurrentId(tutorial.id)
+                                }
+                                else {
+                                    setCurrentId(null)
+                                }
+                            })}
                             style={{ cursor: "pointer" }}
                         >
                             <td>{tutorial.id}</td>
