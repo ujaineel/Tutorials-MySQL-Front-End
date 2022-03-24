@@ -2,11 +2,11 @@ import axios from 'axios';
 import React, { useState } from 'react'
 import { Button, Modal, Spinner } from 'react-bootstrap';
 
-const CreateTutorial = (props) => {
+const EditTutorial = ({ tutorial, currentId, ...props }) => {
     const [formState, setFormState] = useState({
-        title: "",
-        description: "",
-        published: false
+        title: tutorial.title,
+        description: tutorial.description,
+        published: tutorial.published
     });
 
     const [submitting, setSubmitting] = useState(false);
@@ -35,14 +35,14 @@ const CreateTutorial = (props) => {
         }
     };
 
-    const onSubmitHandler = (event) => {
+    const onUpdateHandler = (event) => {
         event.preventDefault();
         setError("");
         setMessage("");
         setSubmitting(true);
-        async function postTutorial() {
-            await axios.post("https://experienced-rogue-avatar.glitch.me/api/tutorials", formState)
-                .then(setMessage("Submitted Tutorial"))
+        async function updateTutorial() {
+            await axios.put(`https://experienced-rogue-avatar.glitch.me/api/tutorials/${currentId}`, formState)
+                .then(setMessage("Updated Tutorial"))
                 .catch(err => {
                     console.log(err);
                     setError(err.message);
@@ -50,7 +50,7 @@ const CreateTutorial = (props) => {
         }
 
         setTimeout(() => {
-            postTutorial();
+            updateTutorial();
             setSubmitting(false);
         }, 2500);
     }
@@ -63,17 +63,17 @@ const CreateTutorial = (props) => {
         });
         setError("");
         setMessage("");
-        props.setShowCreateTutorial(false);
+        props.setShowUpdateTutorial(false);
     }
-    const handleShow = () => props.setShowCreateTutorial(true);
+    const handleShow = () => props.setShowUpdateTutorial(true);
 
     return (
-        <Modal show={props.showCreateTutorial} onHide={handleShow}>
+        <Modal show={props.showUpdateTutorial} onHide={handleShow}>
             <Modal.Header>
                 <Modal.Title>Create a Tutorial</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <form className="container d-flex flex-column" onSubmit={e => onSubmitHandler(e)}>
+                <form className="container d-flex flex-column" onSubmit={e => onUpdateHandler(e)}>
                     <div className="mb-3">
                         <label
                             htmlFor="createFormTitle"
@@ -153,4 +153,4 @@ const CreateTutorial = (props) => {
     );
 }
 
-export default CreateTutorial
+export default EditTutorial;
